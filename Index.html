@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>શીક્ષા સાથી - Shixa Sathi</title>
+    <style>
+        :root {
+            --primary-color: #2563eb; /* Blue for BA */
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #6b7280; /* Gray */
+            --success-color: #10b981; /* Green */
+            --light-bg: #f8fafc;
+            --dark-text: #1f2937;
+            --economics-color: #f59e0b; /* Amber for Economics */
+            --economics-light: #fbbf24;
+            --economics-dark: #d97706;
+            --spcc-color: #059669; /* Emerald for SPCC */
+            --spcc-light: #10b981;
+            --spcc-dark: #047857;
+            --why-color: #8b5cf6; /* Purple for Why section */
+            --why-light: #a78bfa;
+            --why-dark: #7c3aed;
+            --search-color: #8b5cf6; /* Purple for search */
+            --search-light: #a78bfa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .created-by {
+            font-size: 1em;
+            margin-top: 5px;
+            font-style: italic;
+            color: #d1d5db;
+        }
+
+        /* Smart Search Feature */
+        .search-container {
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 0 0 10px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-input-container {
+            position: relative;
+        }
+
+        #questionSearch {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 30px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #questionSearch:focus {
+            outline: none;
+            border-color: var(--search-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+        }
+
+        .search-info {
+            font-size: 14px;
+            color: var(--secondary-color);
+            text-align: center;
+            padding: 5px;
+        }
+
+        .search-results {
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-top: 10px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-result-item {
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background-color: #f8fafc;
+            transform: translateX(5px);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-question {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-text);
+        }
+
+        .search-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+
+        .search-subject {
+            background-color: #e0e7ff;
+            color: var(--primary-dark);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .search-section {
+            background-color: #fef3c7;
+            color: var(--economics-dark);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .search-year {
+            background-color: #d1fae5;
+            color: var(--spcc-dark);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .no-results {
+            padding: 20px;
+            text-align: center;
+            color: var(--secondary-color);
+        }
+
+        /* Question Highlight */
+        .question-highlight {
+            background-color: #fffacd;
+            animation: highlight 2s ease;
+            padding: 5px;
+            border-radius: 4px;
+            border-left: 4px solid #ffd700;
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffff00; }
+            100% { background-color: #fffacd; }
+        }
+
+        nav {
+            background-color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 80px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--dark-text);
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 0 8px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #BA_Folder_nav {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #Economics_Folder_nav {
+            background-color: var(--economics-color);
+            color: white;
+        }
+
+        #SPCC_Folder_nav {
+            background-color: var(--spcc-color);
+            color: white;
+        }
+
+        #why-shixa-sathi_nav {
+            background-color: var(--why-color);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .subject-section {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border-top: 5px solid;
+            overflow: hidden;
+        }
+
+        .subject-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .subject-section h2 {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 0;
+            margin-bottom: 0;
+            color: white;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .subject-section h2::before {
+            margin-right: 15px;
+            font-size: 1.5em;
+        }
+
+        /* Collapse/Expand Button */
+        .toggle-btn {
+            background-color: white;
+            border: 2px solid;
+            color: var(--dark-text);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 20px;
+            white-space: nowrap;
+        }
+
+        #BA_Folder .toggle-btn {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        #BA_Folder .toggle-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #Economics_Folder .toggle-btn {
+            border-color: var(--economics-color);
+            color: var(--economics-color);
+        }
+
+        #Economics_Folder .toggle-btn:hover {
+            background-color: var(--economics-color);
+            color: white;
+        }
+
+        #SPCC_Folder .toggle-btn {
+            border-color: var(--spcc-color);
+            color: var(--spcc-color);
+        }
+
+        #SPCC_Folder .toggle-btn:hover {
+            background-color: var(--spcc-color);
+            color: white;
+        }
+
+        .subject-content {
+            transition: max-height 0.5s ease-out, opacity 0.3s ease;
+            max-height: 5000px;
+            opacity: 1;
+        }
+
+        .subject-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        #BA_Folder {
+            border-top-color: var(--primary-color);
+        }
+
+        #BA_Folder h2 {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-light));
+        }
+
+        #Economics_Folder {
+            border-top-color: var(--economics-color);
+        }
+
+        #Economics_Folder h2 {
+            background: linear-gradient(to right, var(--economics-color), var(--economics-light));
+        }
+
+        #SPCC_Folder {
+            border-top-color: var(--spcc-color);
+        }
+
+        #SPCC_Folder h2 {
+            background: linear-gradient(to right, var(--spcc-color), var(--spcc-light));
+        }
+
+        .subject-section h3 {
+            margin-top: 30px;
+            color: var(--dark-text);
+            font-size: 1.4em;
+            padding-left: 15px;
+            border-left: 5px solid;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        #BA_Folder h3 {
+            border-left-color: var(--primary-color);
+        }
+
+        #Economics_Folder h3 {
+            border-left-color: var(--economics-color);
+        }
+
+        #SPCC_Folder h3 {
+            border-left-color: var(--spcc-color);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .section-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        #BA_Folder .section-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        #Economics_Folder .section-card:hover {
+            border-color: var(--economics-color);
+        }
+
+        #SPCC_Folder .section-card:hover {
+            border-color: var(--spcc-color);
+        }
+
+        .section-card a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: bold;
+            display: block;
+            font-size: 1.1em;
+        }
+
+        .section-card span {
+            display: block;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            margin-top: 8px;
+            padding: 5px;
+            background-color: #f9fafb;
+            border-radius: 4px;
+        }
+
+        /* PDF Viewer Simulation */
+        .pdf-viewer {
+            background-color: white;
+            padding: 35px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+            display: none; /* Initially hidden */
+        }
+
+        .pdf-viewer h3 {
+            color: var(--success-color);
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 15px;
+            margin-top: 0;
+            font-size: 1.6em;
+        }
+
+        .pdf-content {
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-size: 1.1em;
+            padding: 20px;
+            border: 1px solid #f1f5f9;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            font-family: 'Georgia', serif;
+            position: relative;
+        }
+
+        /* WHY શીક્ષા સાથી Section */
+        #why-shixa-sathi-container {
+            scroll-margin-top: 100px;
+            margin-top: 50px;
+        }
+        
+        #why-shixa-sathi {
+            background: linear-gradient(135deg, var(--why-color), var(--why-dark));
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+        }
+
+        #why-shixa-sathi h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #why-shixa-sathi h2::before {
+            content: "✨";
+            margin-right: 15px;
+        }
+        
+        #why-shixa-sathi h2::after {
+            content: "✨";
+            margin-left: 15px;
+        }
+
+        #why-shixa-sathi ul {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 1.1em;
+        }
+
+        #why-shixa-sathi li {
+            margin-bottom: 15px;
+            padding: 12px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            transition: background-color 0.3s;
+        }
+
+        #why-shixa-sathi li:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #why-shixa-sathi li::before {
+            content: "✓";
+            margin-right: 15px;
+            font-weight: bold;
+            color: #a78bfa;
+            font-size: 1.2em;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 28px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background-color: #4b5563;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 60px;
+            background-color: var(--dark-text);
+            color: white;
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .section-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            nav a {
+                padding: 10px 15px;
+                margin: 0 3px;
+                font-size: 0.9em;
+            }
+            
+            .subject-section h2 {
+                font-size: 1.5em;
+            }
+            
+            header h1 {
+                font-size: 2.2em;
+            }
+            
+            .subject-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .toggle-btn {
+                margin-left: 0;
+                margin-top: 15px;
+                align-self: flex-start;
+            }
+            
+            .search-container {
+                padding: 15px;
+                top: 0;
+            }
+            
+            nav {
+                top: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>શીક્ષા સાથી</h1>
+        <p>બોર્ડ પરીક્ષાના પ્રશ્નપત્રોનું વિભાગવાર સંગ્રહ</p>
+    </header>
+
+    <!-- Smart Search Feature -->
+    <div class="search-container">
+        <div class="search-box">
+            <div class="search-input-container">
+                <input type="text" id="questionSearch" placeholder="પ્રશ્ન શોધો (ગુજરાતી અથવા અંગ્રેજીમાં)...">
+                <div class="search-icon">🔍</div>
+            </div>
+            <div class="search-info">તમામ વિષયો, વિભાગો અને વર્ષોમાંથી પ્રશ્નો શોધો</div>
+            <div class="search-results" id="searchResults">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#BA_Folder" id="BA_Folder_nav">વાણિજ્ય વ્યવસ્થા અને સંચાલન (BA)</a>
+        <a href="#Economics_Folder" id="Economics_Folder_nav">અર્થશાસ્ત્ર (Economics)</a>
+        <a href="#SPCC_Folder" id="SPCC_Folder_nav">એસ.પી.સી.સી. (SPCC)</a>
+        <a href="#why-shixa-sathi-container" id="why-shixa-sathi_nav">WHY શીક્ષા સાથી</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="subject-section" id="BA_Folder">
+            <div class="subject-header">
+                <h2>📚 વાણિજ્ય વ્યવસ્થા અને સંચાલન (BA) - વ્યવસ્થાતંત્રના સિદ્ધાંતો</h2>
+                <button class="toggle-btn" data-target="BA_Folder">Hide Content</button>
+            </div>
+            <div class="subject-content" id="BA_Folder_content">
+                <p>છેલ્લા 5 વર્ષના પ્રશ્નો વિભાગવાર (2020, 2022, 2023, 2024, 2025)</p>
+
+                <h3>વિભાગ E (Vibhag E) - (5 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#BA_E_2025">BA 2025: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_E_2024">BA 2024: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_E_2023">BA 2023: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_E_2022">BA 2022: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_E_2020">BA 2020: વિભાગ E <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ D (Vibhag D) - (4 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#BA_D_2025">BA 2025: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_D_2024">BA 2024: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_D_2023">BA 2023: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_D_2022">BA 2022: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_D_2020">BA 2020: વિભાગ D <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ C (Vibhag C) - (3 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#BA_C_2025">BA 2025: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_C_2024">BA 2024: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_C_2023">BA 2023: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_C_2022">BA 2022: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_C_2020">BA 2020: વિભાગ C <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ B (Vibhag B) - (2 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#BA_B_2025">BA 2025: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_B_2024">BA 2024: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_B_2023">BA 2023: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_B_2022">BA 2022: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#BA_B_2020">BA 2020: વિભાગ B <span>(View Online Only)</span></a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subject-section" id="Economics_Folder">
+            <div class="subject-header">
+                <h2>💰 અર્થશાસ્ત્ર (Economics)</h2>
+                <button class="toggle-btn" data-target="Economics_Folder">Hide Content</button>
+            </div>
+            <div class="subject-content" id="Economics_Folder_content">
+                <p>છેલ્લા 5 વર્ષના પ્રશ્નો વિભાગવાર (2020, 2022, 2023, 2024, 2025)</p>
+
+                <h3>વિભાગ E (Vibhag E) - (5 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#Eco_E_2025">Economics 2025: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_E_2024">Economics 2024: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_E_2023">Economics 2023: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_E_2022">Economics 2022: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_E_2020">Economics 2020: વિભાગ E <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ D (Vibhag D) - (4 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#Eco_D_2025">Economics 2025: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_D_2024">Economics 2024: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_D_2023">Economics 2023: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_D_2022">Economics 2022: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_D_2020">Economics 2020: વિભાગ D <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ C (Vibhag C) - (3 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#Eco_C_2025">Economics 2025: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_C_2024">Economics 2024: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_C_2023">Economics 2023: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_C_2022">Economics 2022: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_C_2020">Economics 2020: વિભાગ C <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ B (Vibhag B) - (2 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#Eco_B_2025">Economics 2025: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_B_2024">Economics 2024: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_B_2023">Economics 2023: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_B_2022">Economics 2022: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#Eco_B_2020">Economics 2020: વિભાગ B <span>(View Online Only)</span></a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subject-section" id="SPCC_Folder">
+            <div class="subject-header">
+                <h2>✉️ એસ.પી.સી.સી. (SPCC) - સેક્રેટરીયલ પ્રેક્ટિસ અને કોમર્શિયલ કોમ્યુનિકેશન</h2>
+                <button class="toggle-btn" data-target="SPCC_Folder">Hide Content</button>
+            </div>
+            <div class="subject-content" id="SPCC_Folder_content">
+                <p>છેલ્લા 5 વર્ષના પ્રશ્નો વિભાગવાર (2020, 2022, 2023, 2024, 2025)</p>
+
+                <h3>વિભાગ F (Vibhag F) - (Letters/Reports)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#SPCC_F_2025">SPCC 2025: વિભાગ F <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_F_2024">SPCC 2024: વિભાગ F <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_F_2023">SPCC 2023: વિભાગ F <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_F_2022">SPCC 2022: વિભાગ F <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_F_2020">SPCC 2020: વિભાગ F <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ E (Vibhag E) - (5 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#SPCC_E_2025">SPCC 2025: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_E_2024">SPCC 2024: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_E_2023">SPCC 2023: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_E_2022">SPCC 2022: વિભાગ E <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_E_2020">SPCC 2020: વિભાગ E <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ D (Vibhag D) - (4 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#SPCC_D_2025">SPCC 2025: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_D_2024">SPCC 2024: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_D_2023">SPCC 2023: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_D_2022">SPCC 2022: વિભાગ D <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_D_2020">SPCC 2020: વિભાગ D <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ C (Vibhag C) - (3 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#SPCC_C_2025">SPCC 2025: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_C_2024">SPCC 2024: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_C_2023">SPCC 2023: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_C_2022">SPCC 2022: વિભાગ C <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_C_2020">SPCC 2020: વિભાગ C <span>(View Online Only)</span></a></div>
+                </div>
+
+                <h3>વિભાગ B (Vibhag B) - (2 Mark Questions)</h3>
+                <div class="section-grid">
+                    <div class="section-card"><a href="#SPCC_B_2025">SPCC 2025: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_B_2024">SPCC 2024: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_B_2023">SPCC 2023: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_B_2022">SPCC 2022: વિભાગ B <span>(View Online Only)</span></a></div>
+                    <div class="section-card"><a href="#SPCC_B_2020">SPCC 2020: વિભાગ B <span>(View Online Only)</span></a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BA PDF Viewers -->
+        <div id="BA_E_2025" class="pdf-viewer">
+            <h3>BA 2025: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="E" data-year="2025">
+1) સંચાલનની વિવિધ સપાટીઓ વચ્ચેનો તફાવત સ્પષ્ટ કરો.
+2) આયોજન એટલે શું ? તેની લાક્ષણિકતાઓ સમજાવો.
+3) પસંદગીની પ્રક્રિયા સમજાવો.
+4) દોરવણીનો અર્થ આપી લાક્ષણિકતાઓ સમજાવો.
+5) બિનનાણાકીય પ્રોત્સાહનોની સમજ આપો.
+6) ગ્રાહક સુરક્ષાના કાયદા મુજબ ગ્રાહકોની જવાબદારીઓ વર્ણવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_E_2024" class="pdf-viewer">
+            <h3>BA 2024: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="E" data-year="2024">
+1) સંચાલનની વિવિધ સપાટીઓની આકૃતિ દોરી તળ સપાટીનાં કાર્યો જણાવો.
+2) આયોજનની વ્યાખ્યા આપી તેની પ્રક્રિયા સમજાવો.
+3) ભરતી એટલે શું ? તેના આંતરિક પ્રાપ્તિસ્થાનો સમજાવો.
+4) માસ્લોની જરૂરિયાતોનો અગ્રતાક્રમ આકૃતિ સહિત સમજાવો.
+5) માહિતી સંચારના અવરોધો સમજાવો.
+6) ગ્રાહક સુરક્ષાના કાયદા મુજબ ગ્રાહકોને મળતા અધિકારો સમજાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_E_2023" class="pdf-viewer">
+            <h3>BA 2023: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="E" data-year="2023">
+1) આયોજન એટલે શું? તેની લાક્ષણિકતા સમજાવો.
+2) કર્મચારી વ્યવસ્થાનું મહત્ત્વ સમજાવો.
+અથવા
+3) તાલીમનું મહત્ત્વ સમજાવો.
+4) માસ્લોની જરૂરિયાતોનો અગ્રતાક્રમ આકૃતિ સહિત સમજાવો.
+5) ગ્રાહક સુરક્ષાના કાયદા મુજબ ગ્રાહકોની જવાબદારીઓ વર્ણવો.
+અથવા
+6) ગ્રાહકોને કયા પ્રકારની રાહતો ગ્રાહક સુરક્ષાના કાયદા મુજબ મળી શકે છે?
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_E_2022" class="pdf-viewer">
+            <h3>BA 2022: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="E" data-year="2022">
+1) સંચાલનની વિવિધ સપાટીઓ વચ્ચેના તફાવતના કોઈપણ પાંચ મુદ્દા લખો.
+2) આયોજનની વ્યાખ્યા આપી તેની પ્રક્રિયા સમજાવો.
+3) ભરતી એટલે શું ? તેના આંતરિક પ્રાપ્તિસ્થાનો સમજાવો.
+4) માસ્લોની જરૂરિયાતોનો અગ્રતાક્રમ આકૃતિ સહિત સમજાવો.
+5) માહિતી સંચારના અવરોધો સમજાવો.
+6) ગ્રાહક સુરક્ષાના કાયદા મુજબ ગ્રાહકોના અધિકારો સમજાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_E_2020" class="pdf-viewer">
+            <h3>BA 2020: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="E" data-year="2020">
+1) આયોજનની મર્યાદાઓ સમજાવો.
+2) પસંદગીની પ્રક્રિયા સમજાવો.
+અથવા
+3) તાલીમ અને વિકાસ વચ્ચે તફાવત સમજાવો.
+4) દોરવણીના તત્ત્વો સમજાવો.
+અથવા
+5) નાણાકીય સંચાલનના હેતુઓ સમજાવો.
+6) ઉત્પાદન મિશ્ર પર અસર કરતાં પરિબળો સમજાવો.
+અથવા
+7) વેચાણ પર્યાવરણને અસર કરતાં આર્થિક પરિબળો સમજાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_D_2025" class="pdf-viewer">
+            <h3>BA 2025: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="D" data-year="2025">
+1) સંકલનનું મહત્ત્વ જણાવો.
+2) ઉત્પાદન સંચાલનનો અર્થ આપી તેના કાર્યો જણાવો.
+3) સમજાવો : (i) સત્તાની રૈખિક સાંકળનો સિદ્ધાંત (ii) પહેલવૃત્તિનો સિદ્ધાંત
+4) એક ઉપયોગી અને આકસ્મિક યોજના સમજાવો.
+5) કાર્યાનુસાર વ્યવસ્થાતંત્ર સમજાવો.
+6) વ્યવસ્થાતંત્રની લાક્ષણિક્તાઓ સમજાવો.
+7) "તાલીમ ખર્ચાળ છે, પરંતુ તેની ગેરહાજરી વધુ ખર્ચાળ છે।" વિધાન સમજાવો.
+8) અંકુશ પ્રક્રિયાના છેલ્લા તબક્કા વિશે સમજૂતી આપો.
+9) તફાવત આપો : કુલ કાર્યશીલ મૂડી અને ચોખ્ખી કાર્યશીલ મૂડી
+10) નોંધ લખો : નેશનલ સિક્યોરિટીઝ ડિપોઝીટરી લિમિટેડ
+11) વેચાણ વૃદ્ધિની પ્રયુક્તિઓ સમજાવો। (કોઈપણ ત્રણ)
+12) વૈશ્વીકરણની ભારતીય અર્થતંત્ર પર ઉદ્ભવેલ હકારાત્મક અસરો વિશે તમારા પ્રતિભાવ આપો। (કોઈપણ છ)
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_D_2024" class="pdf-viewer">
+            <h3>BA 2024: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="D" data-year="2024">
+1) સંચાલનનું મહત્ત્વ જણાવો.
+2) ઉત્પાદન સંચાલનના કાર્યો જણાવો.
+3) વૈજ્ઞાનિક સંચાલનનાં સિદ્ધાંતો સમજાવો. (કોઈપણ છ)
+4) આયોજનના કોઈપણ ત્રણ ઘટકો સમજાવો.
+5) અવૈધિક વ્યવસ્થાતંત્રના લક્ષણો સમજાવો. (કોઈપણ છ)
+6) સત્તા સોંપણીનાં મૂળ તત્ત્વો વિશે સમજાવો.
+7) તાલીમ અને વિકાસનો તફાવત લખો.
+8) અંકુશની લાક્ષણિકતાઓ સમજાવો. (કોઈપણ છ)
+9) કાયમી મૂડી અને કાર્યશીલ મૂડી વચ્ચેનો તફાવત સમજાવો.
+10) શૅર બજારના છ કાર્યો સમજાવો.
+11) સારા વેચાણકર્તાની લાક્ષણિકતાઓ જણાવો.
+12) ઉદારીકરણના ભાગ રૂપે ભારત સરકાર દ્વારા કયા પગલા ભરવામાં આવ્યા છે? (કોઈપણ છ)
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_D_2023" class="pdf-viewer">
+            <h3>BA 2023: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="D" data-year="2023">
+1) ઉચ્ચ સપાટી સંચાલનના કાર્યો જણાવો.
+2) સંકલનનું મહત્ત્વ જણાવો.
+3) સંચાલનના સિધ્ધાંતોના મહત્ત્વ અંગે ચર્ચા કરો.
+4) કાર્યાનુસાર વ્યવસ્થાતંત્રની રચના સમજાવો.
+5) વૈધિક વ્યવસ્થાતંત્રના લક્ષણો સમજાવો.
+6) "આયોજન અને અંકુશ એક જ સિક્કાની બે બાજુઓ છે" સમજાવો.
+7) નાણાકીય સંચાલનના હેતુઓ સમજાવો.
+અથવા
+8) કાર્યશીલ મૂડીને અસર કરતા પરિબળો સમજાવો. (કોઈપણ છ)
+9) સેબીના કાર્યો સમજાવો. (કોઈપણ છ) .
+10) બજારીય પ્રક્રિયા અને વેચાણ વચ્ચેનો તફાવત સમજાવો.
+અથવા
+11) જાહેર સંપર્કની ભૂમિકા સમજાવો.
+12) વૈશ્વિકીકરણ ની સકારાત્મક અસરો આપો. (કોઈપણ છ મુદ્દા)
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_D_2022" class="pdf-viewer">
+            <h3>BA 2022: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="D" data-year="2022">
+1) સંચાલનનું મહત્ત્વ જણાવો.
+2) સંકલનનું મહત્ત્વ જણાવો.
+3) આધુનિક વિચારધારાઓ વિશે ટૂંકનોંધ લખો.
+4) કાર્યકારી અને આકસ્મિક યોજના સમજાવો.
+5) કાર્યાનુસાર વ્યવસ્થાતંત્ર રચના સહિત સમજાવો.
+6) સત્તા સોંપણીનાં મૂળ તત્ત્વો વિશે સમજાવો.
+7) તફાવત લખો: તાલીમ અને વિકાસ
+8) "આયોજન અને અંકુશ એક જ સિક્કાની બે બાજુઓ છે."–સમજાવો.
+9) કાર્યશીલ મૂડીને અસર કરતા છ પરિબળો સમજાવો.
+10) શેર બજારના કોઈપણ છ કાર્યો સમજાવો.
+11) સારા વેચાણકર્તાની લાક્ષણિકતાઓ જણાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_D_2020" class="pdf-viewer">
+            <h3>BA 2020: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="D" data-year="2020">
+1) સંચાલનની વિવિધ સપાટીઓ ના નામ આપી આકૃતિ દોરો.
+2) સંકલનનું મહત્ત્વ જણાવો.
+3) આધુનિક વિચારધારાઓ વિશે ટૂંકનોંધ લખો.
+4) વિકેન્દ્રીકરણનું મહત્ત્વ સ્પષ્ટ કરો.
+5) કાર્યાનુસાર વ્યવસ્થાતંત્રની આકૃતિ દોરો.
+6) અંકુશ પ્રક્રિયાના તબક્કામાં સુધારાલક્ષી પગલાં કયાં કયાં છે? સમજૂતી આપો.
+7) નાણાકીય સંચાલનના હેતુઓ સમજાવો.
+અથવા
+8) તફાવત આપો: કાયમી મૂડી અને કાર્યશીલ મૂડી
+9) પ્રાથમિક મૂડી બજારની લાક્ષણિક્તાઓ જણાવો.
+10) જાહેર સંપર્કમાં કઈ પ્રવૃત્તિઓનો સમાવેશ થાય છે?
+અથવા
+11) સારા વેચાણકર્તાના લક્ષણો જણાવો.
+12) ધંધાકીય પર્યાવરણને અસરકર્તા પરિબળોની માત્ર યાદી બનાવો.
+અથવા
+13) ખાનગીકરણની હકારાત્મક અસરો જણાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_C_2025" class="pdf-viewer">
+            <h3>BA 2025: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="C" data-year="2025">
+1) સંચાલનથી સમાજને કયા લાભ મળે છે ?
+2) 'Rule of Thumb' શું છે?
+3) આયોજન ખર્ચાળ છે. શા માટે ?
+4) કર્મચારી વ્યવસ્થા એ માત્ર કલ્યાણકારી પ્રવૃત્તિ નથી. શા માટે ?
+5) માનવ સંસાધન સંચાલનની કામગીરીમાં આયોજન સાથેની સંબંધિત બાબતો જણાવો.
+6) માસ્લોની જરૂરિયાતોના અગ્રતાક્રમની આકૃતિ દોરો. (નોંધ – અંધ વિદ્યાર્થીએ માસ્લોની જરૂરિયાતોના અગ્રતાક્રમના માત્ર મુદ્દાઓ જ જણાવવા)
+7) 'અંકુશ એ સતત પ્રક્રિયા છે.' – સમજાવો.
+8) "આયોજન અને અંકુશ એક જ સિક્કાની બે બાજુઓ છે.'– સમજાવો.
+9) 'મૂડી માળખું એ માલિકીની મૂડી અને દેવાનું મિશ્રણ છે.' – સમજાવો.
+10) કૉલ મની અને નોટિસ મની વચ્ચે મુખ્ય કયો તફાવત છે ?
+11) લેબલિંગના ઉપયોગો જણાવો.
+12) બજાર પ્રક્રિયા સંચાલનની વેચાણ વિભાવના સમજાવો.
+13) વિતરણનાં માધ્યમો / પ્રકારો જણાવો.
+14) ગ્રાહક શોષણ વિશે સમજૂતી આપો.
+15) જાહેર હિતની અરજી વિશે ટૂંકમાં જણાવો.
+16) સમજાવો : (i) ખાનગીકરણ (ii) વિમૂડીકરણ
+17) ધંધાકીય પર્યાવરણનું મહત્ત્વ સ્પષ્ટ કરો. (કોઇપણ બે મુદ્દા ચર્ચો)
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_C_2024" class="pdf-viewer">
+            <h3>BA 2024: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="C" data-year="2024">
+1) સંકલનનો અર્થ આપો.
+2) હુકમની એકવાક્યતાનો સિદ્ધાંત જણાવો.
+3) આયોજન ખર્ચાળ છે, શા માટે ?
+4) "કર્મચારીઓ એકમના હાથ-પગ સમાન છે." – વિધાન સમજાવો.
+5) બૌદ્ધિક કસોટી અને અભિરૂચિ કસોટી દ્વારા શું જાણી શકાય ?
+6) સહભાગીદારી એટલે શું ?
+7) "આયોજન અંકુશનો જન્મદાતા છે" સમજાવો.
+8) અંકુશ પ્રક્રિયાના તબક્કાઓ જણાવો.
+9) ઉત્પાદક ચક્ર એટલે શું?
+10) ટ્રેઝરી બિલ એટલે શું?
+11) માલનો સંગ્રહ શા માટે કરવામાં આવે છે?
+12) માર્કેટિંગ મિશ્ર એટલે શું? તેમાં શેનો સમાવેશ થાય છે ?
+13) બ્રાન્ડિંગની કોઈપણ બે લાક્ષણિકતાઓ જણાવો.
+14) ટ્રસ્ટીશીપના સિદ્ધાંત અને ગ્રાહક સુરક્ષા વિશે નોંધ લખો.
+15) ગ્રાહક જાગૃતિના કાર્યમાં લોક અદાલત કેવી રીતે મદદરૂપ થાય છે?
+16) ધંધાકીય પર્યાવરણનો સતત અભ્યાસ કેમ જરૂરી છે ?
+17) ખાનગીકરણની ચાર હકારાત્મક અસર જણાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_C_2023" class="pdf-viewer">
+            <h3>BA 2023: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="C" data-year="2023">
+1) સંકલનનો અર્થ આપો.
+2) વૈજ્ઞાનિક સંચાલન એટલે શું?
+3) "વ્યવસ્થાતંત્ર એ એકમનું શરીર છે અને આયોજન તેનું મગજ છે' સમજાવો.
+અથવા
+4) વિકેન્દ્રીકરણ ક્યારે શક્ય બને છે ?
+5) ભરતી માટેના આંતરિક અને બાહ્ય પ્રાપ્તિસ્થાનોના નામ જણાવો.
+6) તાલીમનો અર્થ આપો.
+7) દોરવણીના તત્વોની (યાદી આપો).
+8) પ્રોત્સાહનનો અર્થ સમજાવો.
+9) અંકુશ કઈ રીતે આંતરિક પ્રક્રિયા ગણાય ?
+10) 'કાર્યશીલ મૂડી એટલે ધંધામાં ચક્રાકારે ફરતી મૂડી' સમજાવો.
+11) અસંગઠિત નાણાં બજાર એટલે શું ?
+અથવા
+12) કોલ મની અને નોટિસ મની વચ્ચે મુખ્ય કયો તફાવત છે?
+13) માલનો સંગ્રહ શા માટે કરવામાં આવે છે ?
+14) બ્રાન્ડિંગની કોઈપણ બે લાક્ષણિકતાઓ જણાવો.
+15) ગ્રાહક-શોષણ વિશે સમજૂતી આપો.
+16) ધંધાકીય પર્યાવરણના સામાજિક પરિબળો વિશે જણાવો.
+17) ઉદારીકરણનો અર્થ સમજાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_C_2022" class="pdf-viewer">
+            <h3>BA 2022: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="C" data-year="2022">
+1) સંચાલનની ઉચ્ચ સપાટીએ કોનો સમાવેશ થાય છે?
+2) હુકમની એકવાક્યતાનો સિદ્ધાંત સમજાવો.
+3) આયોજન ખર્ચાળ છે. શા માટે?
+4) વિકેન્દ્રીકરણ ક્યારે શક્ય બને છે ?
+5) વિકાસ એટલે શું?
+6) બૌદ્ધિક કસોટી અને અભિરૂચિ કસોટી દ્વારા શું જાણી શકાય?
+7) દોરવણીના તત્ત્વોની યાદી આપો.
+8) અંકુશ એ ગતિશીલ પ્રક્રિયા છે – કેવી રીતે?
+9) ઉત્પાદક ચક્ર એટલે શું?
+10) ડિમટિરિયલાઈઝેશન એટલે શું?
+11) લેબલિંગના ઉપયોગો જણાવો.
+12) માલનો સંગ્રહ શા માટે કરવામાં આવે છે ?
+13) માર્કેટિંગ મિશ્ર એટલે શું? તેમાં શેનો સમાવેશ થાય છે?
+14) ગ્રાહક શોષણ વિશે સમજૂતી આપો.
+15) જાહેર હિતની અરજી વિશે ટૂંકમાં જણાવો.
+16) ધંધાકીય પર્યાવરણનાં સામાજિક પરિબળો વિશે જણાવો.
+17) ઉદારીકરણનો અર્થ સમજાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_C_2020" class="pdf-viewer">
+            <h3>BA 2020: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="C" data-year="2020">
+1) સંચાલનથી સમાજને કયા લાભ મળે છે ?
+2) 'Rule of Thumb' શું છે?
+3) વૈધિક વ્યવસ્થાતંત્રની લાક્ષિિક્તાઓ ના નામ આપો:
+4) તાલીમનો અર્થ આપો
+5) ભરતી એટલે શું ?
+6) સહભાગીદારી એટલે શું?
+7) માહિતી સંચારની પદ્ધતિઓમાં દૃશ્ય - શ્રાવ્ય સાધનોના નામ આપો.
+8) ધંધાના અસ્તિત્વને જોખમમાં મૂકતા બાહ્ય પરિબળો કયા છે?
+9) ઈષ્ટતમ મૂડી માળખું એટલે શું?
+10) નાણા બજારના સાધનો કયા છે?
+11) બજાર સંશોધનનો અર્થ આપો.
+12) પેદાશ વિભાવનાની સમજ આપો.
+13) તકરાર નિવારણ માટેની ત્રિસ્તરીય પદ્ધતિ વિશે જણાવો.
+14) રાજકોષીય નીતિ કઈ બાબતો સાથે સંકળાયેલ છે,
+15) માથાદીઠ આવકમાં ક્યારે વધારો થઈ શકે?
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_B_2025" class="pdf-viewer">
+            <h3>BA 2025: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="B" data-year="2025">
+1) સંચાલન એટલે શું?
+2) નીતિ એટલે શું?
+3) સત્તા સોપણી કોને કહેવાય?
+4) વૈધિક વ્યવસ્થાતંત્ર એટલે શું?
+5) પ્રતીક્ષા યાદી સમજાવો.
+6) અભિપ્રેરણ એટલે શું?
+7) કાયમી મૂડીના ઘટકો કયા છે?
+8) મુંબઈ શૅર બજારની સ્થાપના કયા વર્ષમાં થઈ હતી?
+9) પ્રસિદ્ધિનો અર્થ આપો.
+10) CERC નું પૂરું નામ જણાવો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_B_2024" class="pdf-viewer">
+            <h3>BA 2024: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="B" data-year="2024">
+1) C.E.O. નું વિસ્તૃત રૂપ લખો.
+2) આયોજન ક્યાં-ક્યાં ક્ષેત્રમાં જોવા મળે છે?
+3) કયા વ્યવસ્થાતંત્રને લશ્કરી વ્યવસ્થાતંત્ર કહેવાય છે?
+4) શ્રેણિક વ્યવસ્થાતંત્ર એટલે શું?
+5) પસંદગીની પ્રક્રિયાનો આધાર જણાવો.
+6) આધુનિક માહિતી સંચારના સાધનો જણાવો.
+7) કઈ જામીનગીરી બહાર પાડવાનો ખર્ચ પ્રમાણમાં ઓછો આવે છે?
+8) ડિપોઝીટરી કાયદો ક્યારે અમલમાં આવ્યો ?
+9) વેચાણ વૃદ્ધિ એટલે શું?
+10) જિલ્લા કક્ષાના ફોરમના ચુકાદાથી સંતોષ ના હોય તો પક્ષકારે કેટલા દિવસમાં ક્યાં પુનઃ વિચારણા માટે અરજી કરવી પડે છે?
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_B_2023" class="pdf-viewer">
+            <h3>BA 2023: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="B" data-year="2023">
+1) પેદાશ મિશ્રમાં કયા કયા ગુણધર્મનો સમાવેશ થાય છે?
+2) 'જુઓ અને આગળ વધો' નો સિધ્ધાંત ક્યારે અપનાવાય છે ?
+3) સત્તા સોંપણી કોને કહેવાય?
+4) IIT નું વિસ્તૃત રૂપ આપો.
+5) નફા ભાગ એટલે શું?
+6) કઈ જામીનગીરી બહાર પાડવાનો ખર્ચ પ્રમાણમાં ઓછો આવે છે?
+7) નાણાં બજારના સાધનોની પાકતી મુદત કેટલા સમય માટેની હોય છે?
+8) ડિપોઝીટરીની સેવાઓ કોના દ્વારા પ્રાપ્ત થાય છે ?
+9) વ્યક્તિગત વેચાણ એટલે શું?
+10) ધંધાકીય પરિબળોને મુખ્યત્વે કયા બે ભાગમાં વહેંચી શકાય છે?
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_B_2022" class="pdf-viewer">
+            <h3>BA 2022: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="B" data-year="2022">
+1) I.I.M. નું વિસ્તૃત રૂપ લખો.
+2) અંદાજપત્રના પ્રકારો જણાવો.
+3) અવૈધિક વ્યવસ્થાતંત્ર એટલે શું?
+4) ભરતી માટેના કારણો જણાવો.
+5) નફાભાગ એટલે શું?
+6) કાર્યશીલ મૂડી જેમાં રોકાયેલ છે તે મિલકતો ઉપર ઘસારો શા માટે ગણાતો નથી?
+7) મુંબઈ શેર બજારની સ્થાપના ક્યારે થઈ?
+8) ભારતની પ્રથમ ડિપોઝીટરી કઈ છે?
+9) પ્રસિદ્ધિનો અર્થ આપો.
+10) માથાદીઠ આવકમાં ક્યારે વધારો થઈ શકે?
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="BA_B_2020" class="pdf-viewer">
+            <h3>BA 2020: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="BA" data-section="B" data-year="2020">
+1) યંત્રોની ગોઠવણી અને સમારકામને લગતાં કાર્યો સંચાલનની કઈ સપાટીએ થાય છે?
+2) વર્તન સંબંધિત વિચારધારામાં કયા-કયા ખ્યાલોનો સમાવેશ થાય છે?
+3) કયા વ્યવસ્થાતંત્રને લશ્કરી વ્યવસ્થાતંત્ર કહે છે ?
+4) પસંદગીની પ્રક્રિયાનો આધાર જણાવો.
+5) નિરીક્ષણનો અર્થ આપો.
+6) કઈ જામીનગીરી બહાર પાડવાનો ખર્ચ પ્રમાણમાં ઓછો આવે છે?
+7) NSDL નું વિસ્તૃત રૂપ આપો.
+8) ડિપોઝીટરી કાયદો ક્યારે અમલમાં આવ્યો ?
+9) પ્રસિદ્ધિનો અર્થ આપો.
+10) ધંધાકીય પર્યાવરણ સાથે સંકળાયેલ પરિબળોનાં માત્ર નામ આપો.
+            </pre>
+            <a href="#BA_Folder" class="back-button">વ્યવસ્થાતંત્રના સિદ્ધાંતો મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <!-- Economics PDF Viewers -->
+        <div id="Eco_E_2025" class="pdf-viewer">
+            <h3>Economics 2025: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="E" data-year="2025">
+1) નાણાંના પ્રકારો જણાવી નાણાંના કાર્યો ચર્ચો.
+2) R.B.I. ની નાણાકીય નીતિના પરિમાણાત્મક સાધનોની સમજૂતી આપો. (કોઈપણ પાંચ)
+3) જન્મદરનો અર્થ આપો. ભારતમાં ઊંચા જન્મદર માટેના સામાજિક પરિબળો (કારણો) ચર્ચો.
+4) ભારતમાં ખેત ઉત્પાદકતા વધારવા માટેના કોઈપણ પાંચ ટેક્નોલોજીકલ સુધારાઓ ચર્ચો.
+5) ઔદ્યોગિક વિકાસ માટે ભારત સરકારે લીધેલા પગલા ચર્ચો. (કોઈપણ પાંચ)
+6) ભારતમાં શહેરીકરણની સમસ્યાને હળવી કરવાના ઉપાયો સમજાવો. (કોઈપણ પાંચ)
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_E_2024" class="pdf-viewer">
+            <h3>Economics 2024: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="E" data-year="2024">
+1) સાટા પ્રથાનો અર્થ આપી સાટા પ્રથાની મર્યાદાઓ સમજાવો.
+2) ગરીબીના નિર્દેશકો સમજાવો. (કોઈપણ પાંચ)
+3) ભારતમાં વસ્તી નિયંત્રણના ઉપાયોની વિગતવાર સમજૂતી આપો.
+4) કૃષિક્ષેત્રની ખેત ઉત્પાદકતા વધારવાના ટેક્નોલૉજિકલ સુધારાઓની ચર્ચા કરો.
+5) સ્થળાંતર એટલે શું? સ્થળાંતરના પ્રકારોની સવિસ્તાર ચર્ચા કરો.
+6) શહેરીકરણની નકારાત્મક અસરો ચર્ચો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_E_2023" class="pdf-viewer">
+            <h3>Economics 2023: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="E" data-year="2023">
+1) આર્થિક વિકાસના નિર્દેશક તરીકે જીવનની ભૌતિક ગુણવત્તાના આંકની સમજૂતી આપો. (મર્યાદાઓ જરૂરી નથી)
+અથવા
+2) માનવ વિકાસ આંકના ઘટકો સમજાવી આંકની ગણતરી વિશે સમજૂતી આપો.
+3) ભારતમાં ગરીબી નિવારણ માટેના ઉપાયો ચર્ચો.
+4) બેરોજગારીના પ્રકારો સમજાવો.
+5) ભારતમાં નીચી ખેત ઉત્પાદકતાના સંસ્થાકીય અને ટેક્નોલોજીકલ પરિબળો (કારણો) ચર્ચો.
+6) વિદેશ વેપારનું સ્વરૂપ સમજાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_E_2022" class="pdf-viewer">
+            <h3>Economics 2022: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="E" data-year="2022">
+1) સાટા પ્રથાનો અર્થ આપી સાટા પ્રથાની મર્યાદાઓ સમજાવો.
+2) ગરીબી માટેના આર્થિક કારણો સમજાવો.
+3) ભારતમાં વસ્તી-નિયંત્રણના ઉપાયોની વિગતવાર સમજૂતી આપો.
+4) ભારતમાં નીચી ખેત ઉત્પાદકતાના સંસ્થાકીય અને ટેક્નોલોજીકલ પરિબળો (કારણો) ચર્ચો.
+5) ઔદ્યોગિક વિકાસ માટે સરકારે લીધેલા પગલાં ચર્ચો. (કોઈપણ પાંચ)
+6) શહેરીકરણની નકારાત્મક અસરો ચર્ચો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_E_2020" class="pdf-viewer">
+            <h3>Economics 2020: વિભાગ E પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="E" data-year="2020">
+1) આકૃતિ અને આલેખ દોરતી વખતે ધ્યાનમાં રાખવાની બાબતો સમજાવો.
+2) જીવનની ભૌતિક ગુણવત્તાના આંકની સમજૂતી આપી તેના ઘટકો જણાવો.
+3) નાણાંના પ્રકારો જણાવી નાણાંના કાર્યો સમજાવો.
+4) ગરીબીના નિર્દેશકો સમજાવો.
+5) બેરોજગારી ઘટાડવા માટેના ઉપાયો સમજાવો.
+6) કૃષિક્ષેત્રની ખેત ઉત્પાદકતા વધારવાના ટેક્નોલૉજિકલ સુધારાઓની ચર્ચા કરો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_D_2025" class="pdf-viewer">
+            <h3>Economics 2025: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="D" data-year="2025">
+1) અર્થશાસ્ત્રના અભ્યાસમાં કમ્પ્યુટર ટેક્નોલોજીના કોઈપણ ત્રણ ઉપયોગ સમજાવો.
+2) જીવનની ભૌતિક ગુણવત્તામાં સમાવેશ થતી બાબતો જણાવો.
+3) ગરીબી માટેના આર્થિક કારણો સમજાવો. (કોઈપણ ત્રણ) .
+4) ગરીબીનિવારણ માટેના રોજગારલક્ષી કાર્યક્રમો સમજાવો. (કોઈપણ ત્રણ) .
+5) ચક્રીય બેરોજગારીનો ખ્યાલ સ્પષ્ટ કરો.
+6) "હરિયાળી ક્રાંતિના વેગ અને વિસ્તાર દ્વારા બેરોજગારીની સમસ્યા હળવી કરી શકાય" – સમજાવો.
+7) ભારતમાં વસ્તી-નિયંત્રણના કોઈપણ ત્રણ ઉપાયો સમજાવો.
+8) પાકની ફેરબદલી સમજાવો.
+9) વિદેશ વેપારના કારણો સમજાવો. (કોઈપણ ત્રણ) .
+10) શહેરીકરણની કોઈપણ ત્રણ હકારાત્મક અસરો ચર્ચો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_D_2024" class="pdf-viewer">
+            <h3>Economics 2024: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="D" data-year="2024">
+1) આકૃતિ અને આલેખ દોરતી વખતે ધ્યાનમાં રાખવાની બાબતો જણાવો.
+2) આર્થિક વૃદ્ધિ અને આર્થિક વિકાસનો તફાવત આપો. (કોઈપન્ન 6 ) .
+3) જીવનની ભૌતિક ગુણવત્તાનો આંક એટલે શું? તેના ઘટકો સમજાવો.
+4) ગરીબીના અન્ય કારણો સમજાવો.
+5) મહાત્મા ગાંધી રાષ્ટ્રીય ગ્રામીણ રોજગાર ગેરેંટી યોજના (મનરેગા)ની માહિતી આપો.
+6) ઊંચા જન્મદર માટેના કારણોમાં સામાજિક પરિબળો સમજાવો.
+7) નીચી ખેત ઉત્પાદકતાના કારણોમાં સંસ્થાકીય પરિબળો સમજાવો. (કોઈપણ ત્રણ મુદ્દા) .
+8) વિદેશ વેપારના કોઈપણ ત્રણ કારણો સમજાવો.
+9) આંતરિક વેપાર અને વિદેશ વેપાર વચ્ચેના તફાવતના ગમે તે ત્રણ મુદ્દા જણાવો.
+10) ઉદ્યોગોનું મહત્ત્વ સ્પષ્ટ કરતા ત્રણ મુદ્દા સમજાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_D_2023" class="pdf-viewer">
+            <h3>Economics 2023: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="D" data-year="2023">
+1) આર્થિક વિકાસના નિર્દેશક તરીકે જીવનની ભૌતિક ગુણવત્તાના આંકની સમજૂતી આપો.
+2) R.B.I. નાં કોઈપણ ત્રણ નાણાકીય કાર્યો સમજાવો.
+3) ભારતમાં વસ્તી-નિયંત્રણના કોઈપણ ત્રણ ઉપાયો સમજાવો.
+4) નીચી ખેત ઉત્પાદકતાના કોઈપણ ત્રણ ટેક્નોલોજીકલ પરિબળો સમજાવો.
+5) ભારતમાં રેલવેના વિકાસ અંગે ટૂંક નોંધ લખો.
+6) શહેરીકરણની કોઈપણ ત્રણ હકારાત્મક અસરો ચર્ચો.
+7) ગરીબીના આર્થિક કારણો સમજાવો. (કોઈપણ ત્રણ)
+8) બેરોજગારી ઉદ્ભવવાના કોઈપણ ત્રણ કારણો સમજાવો.
+9) વિદેશ વેપારના કારણો સમજાવો. (કોઈપણ ત્રણ)
+10) નાના પાયાના ઉદ્યોગોના મહત્ત્વના કોઈપણ ત્રણ મુદ્દા ચર્ચો.
+11) શ્રમની ઘટ, વીમા અને ધિરાણની સુવિધાઓ વિશે સમજૂતી આપો.
+12) આકૃતિ અને આલેખ દોરતી વખતે ધ્યાનમાં રાખવાની બાબતો જણાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_D_2022" class="pdf-viewer">
+            <h3>Economics 2022: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="D" data-year="2022">
+1) આકૃતિ અને આલેખ દોરતી વખતે ધ્યાનમાં રાખવાની બાબતો જણાવો.
+2) આર્થિક વૃદ્ધિ અને આર્થિક વિકાસ વચ્ચે તફાવતના ગમે તે છ મુદ્દા જણાવો.
+3) R.B.I ના ગમે તે ત્રણ નાણાકીય કાર્યો સમજાવો.
+4) નાણાકીય નીતિના ગુણાત્મક સાધનોની સમજૂતી આપો.
+5) ભારતમાં બેરોજગારી ઉદ્ભવવાના કોઈપણ ત્રણ કારણો સમજાવો.
+6) મહાત્મા ગાંધી રાષ્ટ્રીય ગ્રામીણ રોજગારી ગેરંટી યોજના (મનરેગા) ની માહિતી આપો.
+7) ભારતમાં ઊંચા જન્મદર માટેના આર્થિક કારણો ચર્ચો.
+8) વિદેશ વેપારના કોઈપણ ત્રણ કારણો સમજાવો.
+9) આંતરિક વેપાર અને વિદેશ વેપાર વચ્ચે તફાવતના ગમે તે છ મુદ્દા જણાવો.
+10) ભારતમાં રેલવેના વિકાસ અંગે ટૂંક નોંધ લખો.
+11) નાના પાયાના ઉદ્યોગોના મહત્ત્વના કોઈપણ ત્રણ મુદ્દા ચર્ચો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_D_2020" class="pdf-viewer">
+            <h3>Economics 2020: વિભાગ D પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="D" data-year="2020">
+1) આર્થિક વૃદ્ધિ અને આર્થિક વિકાસ વચ્ચે તફાવતના ગમે તે છ મુદ્દા જણાવો.
+2) સાપેક્ષ ગરીબીનો ખ્યાલ ઉદાહરણ આપી સમજાવો.
+3) બેરોજગારી ઉદ્ભવવાના કોઈપણ ત્રણ કારણો સમજાવો.
+4) નીચી ખેત ઉત્પાદકતાના સંસ્થાકીય પરિબળો સમજાવો.
+5) ઉદ્યોગોનું મહત્ત્વ સ્પષ્ટ કરતા ત્રણ મુદ્દા સમજાવો.
+6) શહેરીકરણની કોઈપણ ત્રણ નકારાત્મક અસરો ચર્ચો.
+7) આકૃતિ અને આલેખ દોરતી વખતે ધ્યાનમાં રાખવાની બાબતો જણાવો.
+8) જીવનની ભૌતિક ગુણવત્તાનો આંક એટલે શું? તેના ઘટકો સમજાવો.
+9) R.B.I. નાં કોઈપણ ત્રણ નાણાકીય કાર્યો સમજાવો.
+10) વસ્તી-નિયંત્રણના ઉપાયો સમજાવો.
+11) આંતરિક વેપાર અને વિદેશ વેપાર વચ્ચે તફાવત સમજાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_C_2025" class="pdf-viewer">
+            <h3>Economics 2025: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="C" data-year="2025">
+1) આકૃતિ અને આલેખ વચ્ચેનો તફાવત જણાવો. (કોઈપણ બે મુદ્દા)
+2) વૃત્તાંશ આકૃતિ દોરતી વખતે ધ્યાનમાં રાખવાની કોઈપણ બે બાબતો જણાવો.
+3) આર્થિક વિકાસ અને આર્થિક વૃદ્ધિની વ્યાખ્યા આપો.
+4) આર્થિક વિકાસના નિર્દેશક તરીકે માથાદીઠ આવકની ગમે તે બે મર્યાદાઓ સમજાવો.
+5) "ખૂબ વધુ નાણું ઓછી વસ્તુઓને પકડવા દોડે ત્યારે ફુગાવો સર્જાય છે" – વિધાન સમજાવો.
+6) સાટા પ્રથામાં મૂલ્ય માપનની મુશ્કેલી ઉદાહરણ આપી સમજાવો.
+7) રીકરિંગ થાપણો એટલે શું ?
+8) R.B.I. ના ગમે તે બે બિનનાણાકીય કાર્યો સમજાવો.
+9) અર્ધ બેરોજગારનો અર્થ અને તેનું એક ઉદાહરણ આપો.
+10) વસ્તીનાં વલણો એટલે શું?
+11) "કૃષિક્ષેત્ર ભારતીય અર્થતંત્રની કરોડરજ્જૂ સમાન છે" – સમજાવો.
+12) વેપાર તુલા અને લેણદેણની તુલાનો અર્થ આપો.
+13) આંતરિક વેપાર અને વિદેશ વેપાર વચ્ચેના તફાવતના કોઈપણ બે મુદ્દા સમજાવો.
+14) નાના પાયાનો ઉદ્યોગ એટલે શું ?
+15) ઔદ્યોગિકીકરણથી કેવી રીતે સામાજિક માળખામાં ફેરફાર કરી શકાય ?
+16) સ્થળાંતરની નકારાત્મક અસરોના માત્ર મુદ્દા જણાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_C_2024" class="pdf-viewer">
+            <h3>Economics 2024: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="C" data-year="2024">
+1) આકૃતિ એટલે શું અને તે શા માટે દોરવામાં આવે છે?
+2) કમ્પયુટર ટેક્નોલૉજીના ઉપયોગના ભયસ્થાનો જણાવો.
+3) રાષ્ટ્રીય આવકના નિર્દેશકની મર્યાદાઓ જણાવો.
+4) આર્થિક વિકાસના નિર્દેશકો ક્યા છે? યાદી આપો.
+5) ફુગાવાના લક્ષણો જણાવો.
+6) નાણાના પ્રકારો જણાવો.
+7) બેંક શબ્દનો ઉદ્ભવ શી રીતે થયો?
+8) RBI નાં નાણાકીય કાર્યો જણાવો. (કોઈપણ ત્રણ)
+9) ગરીબીરેખાની મર્યાદા જણાવો.
+10) ઘર્ષણજન્ય બેરોજગારીનો અર્થ અને ઉદાહરણ આપો.
+11) ભારતમાં શ્રમપ્રધાન ઉત્પાદન પદ્ધતિ વધારે અનુકૂળ છે, સમજાવો.
+12) દિનદયાળ ઉપાધ્યાય ગ્રામજ્યોતિ યોજના સમજાવો.
+13) લેણ દેણની તુલાને અસર કરતાં કોઈપણ ચાર પરિબળો જણાવો.
+14) ખેતીના આધુનિકીકરણ માં ઉદ્યોગો કેવી રીતે ઉપયોગી છે ?
+15) આકર્ષણ સ્થળાંતર એટલે શું
+16) આરોગ્યનું મહત્ત્વ ટૂંકમાં સમજાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_C_2023" class="pdf-viewer">
+            <h3>Economics 2023: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="C" data-year="2023">
+1) આકૃતિના કોઈપણ ચાર પ્રકારો જણાવો.
+2) ઇન્ટરનેટના ઉપયોગના ભયસ્થાનો જણાવો
+3) માથાદીઠ આવકના નિર્દેશકની કોઈપણ બે મર્યાદાઓ સમજાવો.
+4) માનવ વિકાસ આંકનું મહત્ત્વ જણાવો. (કોઈપણ ચાર)
+5) નાણાંના વિનીમયના માધ્યમ તરીકેનું કાર્યને ઉદાહરણ સહિત સમજાવો.
+6) દાબેલો ફુગાવો એટલે શું?
+7) રિકરિંગ થાપણો એટલે શું?
+8) સાપેક્ષ ગરીબીનો અર્થ ઉદાહરણ આપી સમજાવો.
+9) ગરીબી રેખાની મર્યાદા જણાવો.
+10) અર્ધ બેરોજગારીનો અર્થ અને ઉદાહરણ આપો.
+11) 'કૃષિ એ ભારતીય અર્થતંત્રની કરોડરજ્જુ છે' – સમજાવો.
+12) અનાજ અને અનાજેત્તર વચ્ચેના તફાવતના બે મુદ્દા દર્શાવો.
+13) વેપાર તુલા અને લેણદેણની તુલા વચ્ચેનો તફાવત દર્શાવો. (કોઈપણ બે મુદ્દા)
+14) વિશિષ્ટ આર્થિક વિસ્તાર એટલે શું?
+15) સ્થળાંતરના સામાજિક કારણો સમજાવો.
+16) માનવ મૂડી રોકાણ એટલે શું?
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_C_2022" class="pdf-viewer">
+            <h3>Economics 2022: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="C" data-year="2022">
+1) આકૃતિના કોઈપણ ચાર પ્રકારો જણાવો.
+2) ઈન્ટરનેટના ઉપયોગના ભયસ્થાનો જણાવો.
+3) આર્થિક વૃદ્ધિ અને આર્થિક વિકાસની વ્યાખ્યા આપો.
+4) માથાદીઠ આવકના નિર્દેશકની કોઈપણ બે મર્યાદાઓ સમજાવો.
+5) ફુગાવાના લક્ષણો જણાવો.
+6) નાણાંના પ્રકારો જણાવો.
+7) બેંક શબ્દનો ઉદ્ભવ શી રીતે થયો?
+8) RBI નાં નાણાકીય કાર્યો જણાવો. (કોઈપણ ત્રણ)
+9) નિરપેક્ષ ગરીબીનો ખ્યાલ સમજાવો.
+10) બેરોજગારીનો અર્થ આપી, બેરોજગારીના મુખ્ય પ્રકારો જણાવો.
+11) વસ્તી વિસ્ફોટના અર્થમાં કઈ બાબતોનો સમાવેશ થાય છે?
+12) પ્રધાનમંત્રી પાક વીમા યોજનાના લાભો જણાવો.
+13) વેપાર તુલા અને લેણદેણની તુલા વચ્ચેના તફાવતના ગમે તે બે મુદ્દા જણાવો.
+14) ઉદ્યોગોના સામાજિક લાભો જણાવો.
+15) સ્થળાંતરની આર્થિક અસરોના માત્ર મુદ્દા જણાવો.
+16) માનવ વિકાસનો અર્થ આપી, માનવ વિકાસના માપદંડના ત્રણ સંકેતો જણાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_C_2020" class="pdf-viewer">
+            <h3>Economics 2020: વિભાગ C પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="C" data-year="2020">
+1) ઈન્ટરનેટના ઉપયોગના ભયસ્થાનો જણાવો.
+2) નાણાંના પ્રકારો જણાવો.
+3) રેપોરેટ અને રીવર્સ રેપોરેટનો અર્થ આપો.
+4) વેપારી બેન્કના પ્રાથમિક કાર્યો જણાવો.
+5) ગરીબીના નિર્દેશકો જણાવો.
+6) બેરોજગારીના પ્રકારો જણાવો.
+7) નીચી ખેત ઉત્પાદકતાના સંસ્થાકીય પરિબળો જણાવો.
+8) વિદેશ વેપારના કારણો જણાવો.
+9) જાહેર ક્ષેત્રના એકમોનું કેટલા વિભાગમાં વર્ગીકરણ કરવામાં આવે છે?
+10) સ્થળાંતરના સામાજિક કારણો જણાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_B_2025" class="pdf-viewer">
+            <h3>Economics 2025: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="B" data-year="2025">
+1) N.S.S.O. નું પૂરું નામ આપો.
+2) માનવ વિકાસ આંકનું મૂલ્ય કેટલું હોય છે ?
+3) શાખસર્જનનું સૂત્ર જણાવો.
+4) જુદા-જુદા દેશોમાં નિરપેક્ષ ગરીબીની તુલના કયા માપદંડની મદદથી કરી શક્ય છે?
+5) પ્રધાનમંત્રી કૃષિ સિંચાઈ યોજનાની શરૂઆત ક્યાં વર્ષથી કરવામાં આવે છે ?
+6) મૃત્યુદરનો અર્થ આપો.
+7) ભારતમાં સૌથી વધુ રોજગારી આપતું ક્ષેત્ર કયું છે ?
+8) વિદેશ વેપારની દિશા એટલે શું ?
+9) જાહેરક્ષેત્રના એકમોનું કેટલા વિભાગમાં વર્ગીકરણ કરવામાં આવે છે ?
+10) ભારત સરકારનું સૌથી મોટું જાહેર સાહસ ક્યુ ગણાય ?
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_B_2024" class="pdf-viewer">
+            <h3>Economics 2024: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="B" data-year="2024">
+1) વૃત્તાંશ આકૃતિ એટલે શું?
+2) બાળ મૃત્યુ-દર એટલે શું?
+3) રેપોરેટ એટલે શું?
+4) નાણાકીય નીતિનાં ગુણાત્મક સાધનો એટલે શું?
+5) ખેતીક્ષેત્રે ખેડૂતોને પાક નિષ્ફળતાના જોખમથી રક્ષણ આપવા કઈ યોજના શરૂ કરવામાં આવી?
+6) પ્રધાનમંત્રી કૃષિ સિંચાઈ યોજનામાં કયું સૂત્ર આપવામાં આવ્યું છે?
+7) નાબાર્ડની રચના કયા વર્ષમાં થઈ?
+8) વિદેશ વેપારનું સ્વરૂપ એટલે શું?
+9) ખાનગી ક્ષેત્રના એકમો એટલે શું?
+10) વસ્તીના કયા વલણનું માપ અર્થશાસ્ત્રમાં મહત્ત્વનું ગણાય છે?
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_B_2023" class="pdf-viewer">
+            <h3>Economics 2023: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="B" data-year="2023">
+1) માથાદીઠ આવક એટલે શું?
+2) ફુગાવો એટલે શું?
+3) R.B.I.નું રાષ્ટ્રીયકરણ ક્યા વર્ષમાં કરવામાં આવ્યું ?
+4) ભારતમાં ચલણી સિક્કાઓ કોણ બહાર પાડે છે ?
+5) બેરોજગારીનો અર્થ જણાવો.
+6) ભારતમાં સૌથી વધુ રોજગારી આપતું ક્ષેત્ર કયું છે ?
+7) ભારતની વસ્તીમાં સૌથી વધારે પ્રમાણ કઈ વયજૂથમાં જોવા મળે છે ?
+8) વિશિષ્ટ આર્થિક વિસ્તાર (SEZ) એટલે શું?
+9) જાહેર ક્ષેત્રનો અર્થ જણાવો.
+10) સ્થળાંતરના પ્રકારો જણાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_B_2022" class="pdf-viewer">
+            <h3>Economics 2022: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="B" data-year="2022">
+1) વૃતાંશ શોધવાનું સૂત્ર દર્શાવો.
+2) જીવનની ભૌતિક ગુણવત્તાનો આંક કોણે રજૂ કર્યો હતો?
+3) રિવર્સ રેપોરેટ એટલે શું?
+4) પ્રધાનમંત્રી જનધન યોજનાની શરૂઆત કયા વર્ષમાં કરવામાં આવી?
+5) બેરોજગારીનો અર્થ જણાવો.
+6) ભારતમાં છેલ્લી વસ્તી ગણતરી કયા વર્ષમાં થઈ?
+7) જમીન વિકાસ બેન્કનો મુખ્ય હેતુ જણાવો.
+8) લેણદેણની તુલા એટલે શું?
+9) વિદેશ વેપારના બે મુખ્ય પ્રકારો જણાવો.
+10) નાના પાયાના ઉદ્યોગનો અર્થ જણાવો.
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="Eco_B_2020" class="pdf-viewer">
+            <h3>Economics 2020: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="Economics" data-section="B" data-year="2020">
+1) રાષ્ટ્રીય આવક કરતાં માથાદીઠ આવક નો નિર્દેશક કઈ દૃષ્ટિએ ચઢિયાતો છે?
+2) H. C. I. નું પુરું નામ જણાવો.
+3) વસ્તુ વિનિમય પ્રથાનો અર્થ આપો.
+4) R.B.I.નું રાષ્ટ્રીયકરણ ક્યા વર્ષમાં કરવામાં આવ્યું ?
+5) ભારતમાં ચલણી સિક્કાઓ કોણ બહાર પાડે છે ?
+6) તેંડુલકર સમિતિ એ ગરીબી રેખા નક્કી કરવા કયા પ્રકારના ખર્ચનો સમાવેશ કર્યો છે?
+7) ભારતના ગ્રામ્ય વિસ્તારમાં 24×7 સતત વિજળીની સેવા પૂરી પાડવાના મુખ્ય ઉદ્દેશથી કઈ યોજના શરૂ કરવામાં આવી છે ?
+8) ભારતમાં કેટલા વિશિષ્ટ આર્થિક વિસ્તારો છે?
+9) ખાતાકીય ઉદ્યોગો એટલે શું?
+10) ગુજરાતમાં સરદાર સરોવર યોજનાને કારણે થયેલું સ્થળાંતર એ કયા પ્રકારના સ્થળાંતર નું ઉદાહરણ છે?
+            </pre>
+            <a href="#Economics_Folder" class="back-button">અર્થશાસ્ત્ર મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <!-- SPCC PDF Viewers -->
+        <div id="SPCC_F_2025" class="pdf-viewer">
+            <h3>SPCC 2025: વિભાગ F પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="F" data-year="2025">
+1) બેંક ઓફ વડોદરા, જામનગર ને ઉચ્ચ અભ્યાસ માટે શૈક્ષણિક લોન મેળવવા અંગેનો પત્ર લખો.
+2) સંસ્થાના સરનામે પોસ્ટ-પાર્સલની સમયસર વહેંચણી ના થતી હોવાનો ફરિયાદપત્ર પોસ્ટ-પાર્સલ વિભાગને લખો.
+3) અંબાજી સ્થિત બાળ વિકાસ નામની સેવાભાવી સંસ્થાને આપની શાળામાં કારકિર્દી માર્ગદર્શન આપવા માટે વિનંતી કરતો પત્ર લખો.
+4) એક કર્મચારી ફરજના સમય દરમિયાન કામના સ્થળ પર હાજર ન હતા. આ અંગે ખુલાસો માગતો નોટિસ સ્વરૂપે પત્ર લખો.
+5) કોઈ એક કર્મચારીને શિસ્તભંગના પગલાંરૂપે અપકર્ષની જાણ કરતો પત્ર લખો.
+6) શ્રીમતી ભારતી મિત્તલ પોતે ખરીદેલ વીમા પોલિસી માટે મંજૂર કરેલ પ્રીમિયમની મુદતમાં ફેરફાર કરાવવા ઈચ્છે છે. તેમના વતી વિમા કંપનીને પત્ર લખો.
+7) સિવિલ હોસ્પિટલની મુલાકાત બાદ તે અંગેની રજૂઆત કરતો વ્યક્તિગત અહેવાલ તૈયાર કરો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_F_2024" class="pdf-viewer">
+            <h3>SPCC 2024: વિભાગ F પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="F" data-year="2024">
+1) તમારી બેંક દ્વારા આપવામાં આવેલું ક્રેડિટકાર્ડ ખોવાઈ ગયું છે, તે અંગેની બેંકને જાણ કરતો પત્ર લખો.
+2) જાહેર આરોગ્ય ક્ષેત્રે આરોગ્ય વિભાગે કરેલી પ્રશંસનીય કામગીરીને બિરદાવતો પત્ર લખો.
+3) શહેરના જાહેર માર્ગો પર લારી ગલ્લાનું દબાણ વધવાથી પડતી મુશ્કેલીઓ અંગેનો પત્ર લખો.
+4) કર્મચારીની બદલીનો આદેશ કરતો પત્ર લખો.
+5) ઉમંગ પટેલ તેમની કંપનીમાંથી સ્વૈચ્છિક સેવાનિવૃત્તિ (વી.આર.એસ.) લેવા માગે છે. આ અંગે વિનંતી કરતો પત્ર લખો.
+6) હર્ષવર્ધન મહેતા મેડિક્લેઈમ પૉલિસી ખરીદવા માગે છે. આ અંગે વીમા કંપનીને તેમના વતી પત્ર લખો.
+7) સ્વયં શિક્ષક-દિનની ઉજવણીના આયોજન અંગે સમિતિ અહેવાલ રજૂ કરો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_F_2023" class="pdf-viewer">
+            <h3>SPCC 2023: વિભાગ F પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="F" data-year="2023">
+1) આરૂષ પટેલ અમદાવાદ, પંજાબ નેશનલ બેંકમાં લોકરની સુવિધા મેળવવા માગે છે. આ અંગેનો પત્ર બેંક મેનેજરશ્રી ને લખો.
+
+2) શહેરના જાહેર માર્ગો પર સફાઈની અનિયમિતતા અંગેનું ધ્યાન દોરતો પત્ર સૂરત મહાનગરપાલિકાને લખો. 
+અથવા: તમારી શાળાની આસપાસ પાન-મસાલા અને ગુટખાનું વેચાણ થઈ રહ્યું છે. જેને બંધ કરવા માટે શાળાના આચાર્યશ્રીને જાણ કરતો પત્ર લખો.
+
+3) શાહ કોમ્યુનિકેશન સેન્ટર, અમદાવાદ વતી શ્રી જીમીત પટેલને ભરતી અંગે વ્યક્તિગત મુલાકાત માટે હાજર રહેવા જણાવતો પત્ર લખો.
+
+4) શ્રી નિરવ પટેલ પોતે ખરીદેલ વીમા પોલીસી માટે મંજૂર કરેલ પ્રિમીયમની મુદતમાં ફેરફાર કરવા ઇચ્છે છે. તેમના વતી વીમા કંપનીને પત્ર લખો. 
+અથવા: પલક રાવ તરફથી મેડિક્લેમ પોલીસી ખરીદવા માટેનો પત્ર યુનાઈટેડ ઇન્ડિયા ઇન્સ્યોરન્સ કંપનીને લખો.
+
+5) મૌખિક રજૂઆત માટે ધ્યાનમાં રાખવા લાયક બાબતો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_F_2022" class="pdf-viewer">
+            <h3>SPCC 2022: વિભાગ F પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="F" data-year="2022">
+1) પ્રતીક / પ્રતીક્ષાનું ATM Card ખોવાઈ ગયું છે. તેમના વતી તેમની બેંકને તે અંગેની જાણ કરતો પત્ર લખો અને નવું કાર્ડ મેળવવાની પ્રક્રિયાની જાણકારી મેળવો.
+
+2) તમારા વિસ્તારમાં પાણી પુરવઠાની અનિયમિતતા છે. જે અંગેની ફરિયાદ કરતો પત્ર યોગ્ય વિભાગને લખો.
+
+3) આપના શહેરના આરોગ્ય વિભાગે આપની શાળામાં કરેલ કોરોના રસીકરણની કામગીરી અંગે પ્રશંસા અને આભાર વ્યક્ત કરતો પત્ર લખો.
+
+4) કર્મચારીની બદલીનો આદેશ કરતો પત્ર લખો.
+
+5) એક કર્મચારી ફરજના સમય દરમિયાન કામનાં સ્થળ પર હાજર ન હતા. આ અંગે ખુલાસો માગતો નોટિસ સ્વરૂપે પત્ર લખો.
+
+6) 35 વર્ષીય શ્રી દિલીપભાઈ જોષી બે વર્ષથી એક કંપનીમાં ઊંચા હોદા પર કામ કરે છે. તેઓ તેમને અને તેમના પરિવારના સભ્યોને વિમાથી આરક્ષિત કરવા માંગે છે. તેમને અનુરૂપ પોલીસીની માહિતી મેળવવા તેમના વતી LIC ઓફ ઇન્ડિયાને પત્ર લખો.
+
+7) આપણા દેશના 73 માં ગણતંત્ર દિવસની ઉજવણી અંગે સમિતિ અહેવાલ તૈયાર કરો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_F_2020" class="pdf-viewer">
+            <h3>SPCC 2020: વિભાગ F પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="F" data-year="2020">
+1) તમારું સ્ટેટ બેંક ઓફ ઇન્ડિયા, અલકાપુરી શાખા, વડોદરામાં ખાતું છે. તમારા બેંક સ્ટેટમેન્ટ (પાસબુક)માં જણાયેલ ભૂલનું ધ્યાન દોરતો પત્ર લખો.
+
+2) સંસ્થાના સરનામે પોસ્ટ - પાર્સલની સમયસર વહેંચણી ના થતી હોવાનો ફરિયાદપત્ર પોસ્ટ - પાર્સલ વિભાગને લખો.
+
+3) સ્વૈચ્છિક સેવા નિવૃત્તિ (વી.આર.એસ.) અંગે વિનંતી કરતો પત્ર લખો. 
+અથવા: એક કર્મચારી દ્વારા કોઈ વિશિષ્ટ પ્રકારની સિદ્ધિ મેળવવામાં આવી છે. આ બાબતને ધ્યાનમાં રાખી તેને બઢતી આપવામાં આવી છે તો તે અંગે બઢતીની જાણ કરતો પત્ર લખો.
+
+4) શ્રીમતી આશાબેન શર્મા પોતાની બંધ પડી ગયેલી વીમા પોલીસી પુનઃ ચાલુ કરાવવા અંગે માહિતી મેળવવા માગે છે આ વિશે પત્ર લખો.
+
+5) પ્રજાસત્તાક દિવસની ઉજવણી અંગે સમિતિ અહેવાલ તૈયાર કરો. 
+અથવા: પાવર પાઇન્ટ પ્રેઝન્ટેશન અંતર્ગત સ્લાઈડ શો તૈયાર કરવા માટે ધ્યાનમાં રાખવાની બાબતો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_E_2025" class="pdf-viewer">
+            <h3>SPCC 2025: વિભાગ E પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="E" data-year="2025">
+1) સજાવટ ફર્નિચર, વડોદરા વતી ઓલ ઈન વન ફર્નિચર મેન્યુફેક્ચરિંગ, મુંબઈને 100 નગ ટેબલ અને 200 નગ ખુરશી ખરીદવા માટેનો ઓર્ડર આપતો ઈ-મેઈલ લખો.
+2) અનિયમિત શેર વહેંચણી અને ગેરકાયદેસર શેર વહેંચણી વચ્ચેનો તફાવત.
+3) શેરના કાયદાકીય હસ્તાંતરણ અંગેના સંજોગો જણાવો.
+4) કંપનીનું સભ્યપદ કોણ મેળવી શકે?
+5) મેનેજિંગ ડિરેક્ટર અને ડિરેક્ટર વચ્ચેનો તફાવત જણાવો.
+6) ટૂંકનોંધ લખો: પ્રતિતાધિકાર (proxy)
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_E_2024" class="pdf-viewer">
+            <h3>SPCC 2024: વિભાગ E પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="E" data-year="2024">
+1) હીરો સાઈકલ્સ સુરત વતી અંબિકા સાઈકલ્સ મેન્યુફેક્ચરિંગ નોઈડાને 500 સાયકલો ખરીદવા માટેનો ઓર્ડર આપતો ઈ-મેઈલ લખો.
+2) શેર હપ્તા મંગાવવાની વિધિ સમજાવો.
+3) સ્વૈચ્છિક ફેરબદલી અને ફરજિયાત ફેરબદલી વચ્ચેનો તફાવત જણાવો.
+4) સભ્યપદનાં અંતના સંજોગો સમજાવો.
+5) મેનેજિંગ ડિરેક્ટર અંગેની કંપની ધારાની નિમણૂંક અંગેની જોગવાઈઓ જણાવો.
+6) સામાન્ય ઠરાવ અને ખાસ ઠરાવ વચ્ચેનો તફાવત દર્શાવો
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_E_2023" class="pdf-viewer">
+            <h3>SPCC 2023: વિભાગ E પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="E" data-year="2023">
+1) અનિયમિત શેર વહેંચણી અને ગેરકાયદેસર શેર વહેંચણી વચ્ચેનો તફાવત સમજાવો. (ગમે તે ચાર)
+અથવા: શેરહપ્તા મંગાવવાની વિધિ સમજાવો.
+
+2) શેર ફરજીયાત ફેરબદલીની વિધિ જણાવો.
+
+3) કંપનીનું સભ્યપદ કોણ મેળવી શકે ?
+અથવા: કંપનીનું સભ્યપદ મેળવવાની વિવિધ રીતો જણાવો.
+
+4) સંચાલકની ગેરલાયકાતો જણાવો.
+
+5) સભાપતિની સત્તાઓ સમજાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_E_2022" class="pdf-viewer">
+            <h3>SPCC 2022: વિભાગ E પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="E" data-year="2022">
+1) ઈ-મેઈલ લખતી વખતે ધ્યાનમાં રાખવી પડતી બાબતો જણાવો.
+2) શેરની વહેંચણી અંગેની વિધિ સમજાવો.
+3) શેરના કાયદાકીય હસ્તાંતરણનો અર્થ આપી અને તે અંગેના સંજોગો જણાવો.
+4) કંપનીનું સભ્યપદ કોણ મેળવી શકે ?
+5) મેનેજિંગ ડિરેક્ટર અને ડિરેક્ટર વચ્ચેનો તફાવત જણાવો.
+6) સામાન્ય ઠરાવ એટલે શું ? તેના હેતુઓ જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_E_2020" class="pdf-viewer">
+            <h3>SPCC 2020: વિભાગ E પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="E" data-year="2020">
+1) ઈ-મેઇલ લખતે વખતે ધ્યાનમાં રાખવા જેવી બાબતો જણાવો.
+અથવા: જે.સી.ટી. ઈલેક્ટ્રોનિકસ કંપની, કરજણ વતી ભારત ઈલેક્ટ્રોનિક્સ અમદાવાદને 500 કલર પિક્ચર ટ્યૂબ ખરીદવા ઈ-મેઇલ લખો.
+
+2) અનિયમિત શેર વહેંચણી અને ગેરકાયદેસર શેર વહેંચણી વચ્ચેનો તફાવત સમજાવો.
+અથવા: ટૂંકનોંધ લખો : ડિવિડન્ડ.
+
+3) સભ્યપદના અંતના સંજોગો જણાવો.
+
+4) સંચાલકોની નિવૃત્તિ કયા સંજોગોમાં થાય છે?
+અથવા: સંચાલકોની દીવાની જવાબદારી સમજાવો.
+
+5) સભાપતિનો અર્થ આપી તેની લાયકાતો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_D_2025" class="pdf-viewer">
+            <h3>SPCC 2025: વિભાગ D પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="D" data-year="2025">
+1) શૅર સોંપણીના સંજોગો જણાવો.
+2) શૅર ફેરબદલીનું મહત્ત્વ જણાવો.
+3) ડિબેચર ટ્રસ્ટ ડીડમાં કઈ વિગતોનો સમાવેશ કરવામાં આવે છે?
+4) "વ્યક્તિ સભ્ય હોય પરંતુ શેરહોલ્ડર ન હોય" - વિધાન સમજાવો.
+5) સંચાલક રાજીનામું કેવી રીતે આપે છે? - સમજાવો.
+6) સભા નોટિસ અંગે સેક્રેટરીની ફરજો ચર્ચો.
+7) સ્વૈચ્છિક વિસર્જનના સંજોગો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_D_2024" class="pdf-viewer">
+            <h3>SPCC 2024: વિભાગ D પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="D" data-year="2024">
+1) શેર વહેંચણી અંગે સેક્રેટરીની ફરજો જણાવો.
+2) શેરના કાયદાકીય હસ્તાંતરણ અંગેના સંજોગો જણાવો.
+3) શેર અને ડિબેંચર વચ્ચેનો તફાવત આપો.
+4) કંપનીનું સભ્યપદ કોણ મેળવી શકે?
+5) સંચાલકની લાયકાતો જણાવો.
+6) કંપનીની સભાઓના વિવિધ પ્રકારો દર્શાવો.
+7) લેણદારો દ્વારા સ્વૈચ્છિક વિસર્જનનો અર્થ અને વિધિ જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_D_2023" class="pdf-viewer">
+            <h3>SPCC 2023: વિભાગ D પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="D" data-year="2023">
+1) ઈ-લર્નિંગ અને વીડિયો કોન્ફરન્સિંગ વિશે વિગતવાર જણાવો.
+2) અનિયમિત શેર વહેંચણીની અસરો લખો.
+3) શેરના કાયદાકીય હસ્તાંતરણ અંગેના સંજોગો જણાવો.
+4) "વ્યક્તિ સભ્ય હોય પરંતુ શેરહોલ્ડર ન હોય", વિધાન સમજાવો.
+5) નોમિની ડિરેક્ટરની નિમણૂંક ક્યારે કરવામાં આવે છે?
+6) કયા હેતુઓ માટે ખાસ ઠરાવ કરવામાં આવે છે? (ગમે તે છ)
+અથવા: સામાન્ય ઠરાવ અને ખાસ ઠરાવનો તફાવત લખો. (ગમે તે ત્રણ મુદ્દાઓ)
+7) સ્વૈચ્છિક ફડચાના સંજોગો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_D_2022" class="pdf-viewer">
+            <h3>SPCC 2022: વિભાગ D પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="D" data-year="2022">
+1) શેર હપ્તા અંગે સેક્રેટરીની ફરજો જણાવો.
+2) શેરની ફરજિયાત ફેરબદલી વિધિ જણાવો.
+3) ડિબેંચરના કોઈ પણ ત્રણ પ્રકાર સમજાવો.
+4) સભ્ય અને શેરહોલ્ડર વચ્ચેનો તફાવત સમજાવો.
+5) સંચાલકોની નિવૃત્તિ કયા સંજોગોમાં થાય છે?
+6) સભાપતિની ફરજો સમજાવો.
+7) સ્વૈચ્છિક ફડચાના સંજોગો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_D_2020" class="pdf-viewer">
+            <h3>SPCC 2020: વિભાગ D પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="D" data-year="2020">
+1) શેર વહેંચણી અંગે સેક્રેટરીની ફરજો જણાવો.
+2) શેરના કાયદાકીય હસ્તાંતર અંગેના સંજોગો જણાવો.
+3) શેર ફેરબદલીનું મહત્ત્વ જણાવો.
+4) સભ્ય અને શેરહોલ્ડર વચ્ચેનો તફાવત સમજાવો.
+5) મેનેજિંગ ડિરેક્ટરની લાયકાતો અને ગેરલાયકાતો જણાવો.
+6) સભાનોંધના હેતુઓ દર્શાવો. અથવા
+સભાનોંધમાં કઈ કઈ વિગતોનો સમાવેશ થાય છે?
+7) ટ્રિબ્યુનલ મારફતે ફરજિયાત ફડચા / વિસર્જનનાં સંજોગો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_C_2025" class="pdf-viewer">
+            <h3>SPCC 2025: વિભાગ C પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="C" data-year="2025">
+1) બેંકને કઈ બાબતો માટે કરીયાદ પત્રો લખવામાં આવે છે ?
+2) જાહેર ઉપયોગી સેવાઓ પૂરો પાડતા વિભાગો કે નિગમોને કોની નાણાકીય સહાય પ્રાપ્ત થતી હોય છે?
+3) પ્રત્યક્ષ અને પરોક્ષ ભરતી એટલે શું?
+4) ત્યાગપત્રના બીજા ભાગમાં કઈ બાબતનો સમાવેશ થાય છે ?
+5) શર હપ્તા મંગાવવાની વિધિ દરમિયાન સભ્યપત્રક બંધ રાખવું શા માટે જરૂરી છે ?
+6) અંશતઃ રૂપાંતરણક્ષમ ડિબેંચર વિશે સમજૂતી આપો.
+7) સભ્ય અને શૅરહોલ્ડર વચ્ચેના તફાવતના કોઈપણ 2 મુદ્દા સમજાવો.
+8) નોમિની ડિરેક્ટરની નિમણૂંક ક્યારે કરવામાં આવે છે?
+9) સભા નોટિસ કેવી રીતે આપી શકાય?
+10) કંપનીની પ્રાથમિક સભા અને અહેવાલ વિશે સમજાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_C_2024" class="pdf-viewer">
+            <h3>SPCC 2024: વિભાગ C પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="C" data-year="2024">
+1) બેંકને લખવામાં આવતા વિનંતી પત્રોમાં ક્યા પ્રકારના પત્રોનો સમાવેશ કરવામાં આવે છે ? તેની યાદી આપો.
+2) કઈ સંસ્થાઓને 'સ્થાનિક સંસ્થાઓ' પણ ગણી શકાય ?
+3) અપકર્ષ અંગેના સંજોગો જણાવો.
+4) ગેર કાયદેસર શૅર વહેંચણી એટલે શું?
+5) શેર સોંપણીના સંજોગો જણાવો.
+6) અંશતઃ રૂપાંતરણક્ષમ ડિબેંચર એટલે શું?
+7) રૂપાંતરપાત્ર ડિબેંચરધારક કઈ રીતે સભ્ય બને છે?
+8) સંચાલકોની જવાબદારી કેટલા પ્રકારની હોય છે?
+9) સભાનોંધમાં કઈ કઈ વિગતોનો સમાવેશ થાય છે?
+10) ફરજિયાત વિસર્જનની પ્રક્રિયાનાં યોગ્ય અને ન્યાયી કારણો જણાવો. (કોઈપણ બે)
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_C_2023" class="pdf-viewer">
+            <h3>SPCC 2023: વિભાગ C પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="C" data-year="2023">
+1) વ્યાપારી પેઢીએ કયા કયા સરકારી વિભાગો સાથે પત્રવ્યવહાર કરવો પડે છે ?
+2) શેર અરજી અંગેની વિધિના તબક્કાઓ જણાવો.
+3) સરફ્રાન્સિસ પામરના મત અનુસાર ડિબેંચરની વ્યાખ્યા જણાવો.
+4) ડિબેંચર ટ્રસ્ટ ડીડમાં કંઈ કંઈ વિગતોનો સમાવેશ થાય છે? (ગમે તે ચાર)
+5) સ્ત્રી સંચાલકની નિમણૂંક ક્યારે જરૂરી છે?
+6) કઈ કઈ વિગતોનો સમાવેશ સભાનોંધમાં થાય છે? (ગમે તે ચાર)
+7) કંપનીને ફડચામાં લઈ જવાના પ્રકારોના નામ આપો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_C_2022" class="pdf-viewer">
+            <h3>SPCC 2022: વિભાગ C પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="C" data-year="2022">
+1) કઈ આધુનિક સેવાઓને કારણે બેન્કની સેવાઓ વધુ ઝડપી અને ગ્રાહકલક્ષી બની છે ?
+2) સામાન્ય રીતે કઈ બાબતો માટે સરકારી વિભાગો સાથે પત્રવ્યવહાર કરવાની જરૂરિયાત વેપારી પેઢીઓને પડતી હોય છે?
+3) પરિપત્રનાં કાર્યો જણાવો.
+4) સેબી (SEBI) ની માર્ગદર્શિકા મુજબ શૅર અરજીનું વર્ગીકરણ કેવી રીતે કરવામાં આવે છે?
+5) શૅર સોંપણીના સંજોગો જણાવો.
+6) ડિબેંચર ટ્રસ્ટ ડીડમાં કઈ વિગતોનો સમાવેશ કરવામાં આવે છે?
+7) ગૌણ કંપની કયા સંજોગોમાં શાસક કંપનીનું સભ્યપદ પ્રાપ્ત કરી શકે?
+8) સ્ત્રી સંચાલકની નિમણૂંક ક્યારે જરૂરી છે ?
+9) સભાનોંધના હેતુઓ દર્શાવો.
+10) કંપનીને ફડચામાં લઈ જવાનાં પ્રકારોનાં નામ આપો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_C_2020" class="pdf-viewer">
+            <h3>SPCC 2020: વિભાગ C પ્રશ્નો</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="C" data-year="2020">
+1) સ્થાનિક સંસ્થાઓ સાથેના પત્રો કોને સંબોધીને લખવા જોઈએ?
+2) શેરજપ્તીની કોઈપણ ચાર અસરો જણાવો.
+3) ડિબેન્ચર ટ્રસ્ટ ડીડ એટલે શું ?
+4) ગીરો ડિબેન્ચર એટલે શું ?
+5) એકલ વ્યક્તિ કંપનીમાં ઓછામાં ઓછા અને વધુમાં વધુ કેટલા સંચાલકો હોય છે?
+6) સભા નોટિસના હેતુઓ જણાવો.
+7) ફરજિયાત વિસર્જનની પ્રક્રિયાનાં યોગ્ય અને ન્યાયી કારણો જણાવો.
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_B_2025" class="pdf-viewer">
+            <h3>SPCC 2025: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="B" data-year="2025">
+1) પદોન્નતિ એટલે શું?
+2) ભરતીની પદ્ધતિઓ જણાવો.
+3) વીમાના મુખ્ય પ્રકારોના નામ જણાવો.
+4) ઈ - લર્નિંગ એટલે શું ?
+5) ત્યાગપત્ર એટલે શું?
+6) કંપનીનું મહત્વનું લક્ષણ શું છે ?
+7) કન્વર્ટિબલ ડિબેન્ચરનો અર્થ આપો.
+8) જાહેર કંપનીમાં ઓછામાં ઓછા કેટલા ડિરેક્ટર હોવા જોઈએ?
+9) કાર્યસૂચિનો અર્થ આપો.
+10) લિક્વિડેટરની નિમણૂંક થતાં કોની સત્તાનો અંત આવે છે ?
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_B_2024" class="pdf-viewer">
+            <h3>SPCC 2024: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="B" data-year="2024">
+1) પદોન્નતિ એટલે શું?
+2) ભરતીની પદ્ધતિઓ જણાવો.
+3) વીમાના મુખ્ય પ્રકારોના નામ જણાવો.
+4) ઈ - લર્નિંગ એટલે શું ?
+5) ત્યાગપત્ર એટલે શું?
+6) કંપનીનું મહત્વનું લક્ષણ શું છે ?
+7) કન્વર્ટિબલ ડિબેન્ચરનો અર્થ આપો.
+8) જાહેર કંપનીમાં ઓછામાં ઓછા કેટલા ડિરેક્ટર હોવા જોઈએ?
+9) કાર્યસૂચિનો અર્થ આપો.
+10) લિક્વિડેટરની નિમણૂંક થતાં કોની સત્તાનો અંત આવે છે ?
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_B_2023" class="pdf-viewer">
+            <h3>SPCC 2023: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="B" data-year="2023">
+1) પદોન્નતિ એટલે શું?
+2) ભરતીની પદ્ધતિઓ જણાવો.
+3) વીમાના મુખ્ય પ્રકારોના નામ જણાવો.
+4) ઈ - લર્નિંગ એટલે શું ?
+5) ત્યાગપત્ર એટલે શું?
+6) કંપનીનું મહત્વનું લક્ષણ શું છે ?
+7) કન્વર્ટિબલ ડિબેન્ચરનો અર્થ આપો.
+8) જાહેર કંપનીમાં ઓછામાં ઓછા કેટલા ડિરેક્ટર હોવા જોઈએ?
+9) કાર્યસૂચિનો અર્થ આપો.
+10) લિક્વિડેટરની નિમણૂંક થતાં કોની સત્તાનો અંત આવે છે ?
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_B_2022" class="pdf-viewer">
+            <h3>SPCC 2022: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="B" data-year="2022">
+1) પ્રીમિયમ એટલે શું?
+2) ઈ-કોમ્યુનિકેશનમાં વપરાતા અક્ષર 'ઈ'નો અર્થ શું થાય છે?
+3) પ્રેઝન્ટેશનમાં કોણ કેન્દ્રસ્થાને હોવું જોઈએ?
+4) શૅર જપ્તી એટલે શું?
+5) NSDL નું પુરું નામ આપો.
+6) ડિબેંચર એ કંપનીની કયા પ્રકારની મૂડી છે?
+7) કંપની ધારા પ્રમાણે સંચાલકની વ્યાખ્યા લખો.
+8) મેનેજિંગ ડિરેક્ટર વધુમાં વધુ કેટલી કંપનીમાં કામગીરી કરી શકે છે?
+9) સભાપતિ કોને કહેવાય છે?
+10) તપાસ સમિતિની નિમણૂંક શા માટે કરવામાં આવે છે ?
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+        <div id="SPCC_B_2020" class="pdf-viewer">
+            <h3>SPCC 2020: વિભાગ B પ્રશ્નો - (View Only)</h3>
+            <pre class="pdf-content" data-subject="SPCC" data-section="B" data-year="2020">
+1) પદોન્નતિ એટલે શું?
+2) ભરતીની પદ્ધતિઓ જણાવો.
+3) વીમાના મુખ્ય પ્રકારોના નામ જણાવો.
+4) ઈ - લર્નિંગ એટલે શું ?
+5) ત્યાગપત્ર એટલે શું?
+6) કંપનીનું મહત્વનું લક્ષણ શું છે ?
+7) કન્વર્ટિબલ ડિબેન્ચરનો અર્થ આપો.
+8) જાહેર કંપનીમાં ઓછામાં ઓછા કેટલા ડિરેક્ટર હોવા જોઈએ?
+9) કાર્યસૂચિનો અર્થ આપો.
+10) લિક્વિડેટરની નિમણૂંક થતાં કોની સત્તાનો અંત આવે છે ?
+            </pre>
+            <a href="#SPCC_Folder" class="back-button">એસ.પી.સી.સી. મુખ્ય મેનુ પર પાછા જાઓ</a>
+        </div>
+
+    </div>
+
+    <!-- WHY શીક્ષા સાથી Section moved to bottom -->
+    <div id="why-shixa-sathi-container">
+        <div id="why-shixa-sathi">
+            <h2>WHY શીક્ષા સાથી?</h2>
+            <ul>
+                <li>Students can easily access last 5 years of board questions in an organized format.</li>
+                <li>Saves time by skipping unnecessary questions and directly focusing on specific sections.</li>
+                <li>Helps students identify patterns in repeated question types over the years.</li>
+                <li>Makes revision more efficient and targeted.</li>
+                <li>Teachers can use the section-wise PDFs to prepare practice tests and assignments.</li>
+                <li>Encourages smart study instead of lengthy manual searching.</li>
+                <li>Students gain more confidence by practicing exactly the type of questions asked in exams.</li>
+                <li>Improves exam performance through focused preparation.</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 શીક્ષા સાથી - બોર્ડ પરીક્ષાના પ્રશ્નપત્રોનું વિભાગવાર સંગ્રહ</p>
+    </footer>
+
+    <script>
+        // Question data for search functionality
+        const allQuestions = [];
+        
+        // Initialize question data from PDF viewers
+        function initializeQuestionData() {
+            document.querySelectorAll('.pdf-viewer .pdf-content').forEach(pdfContent => {
+                const subject = pdfContent.getAttribute('data-subject');
+                const section = pdfContent.getAttribute('data-section');
+                const year = pdfContent.getAttribute('data-year');
+                const pdfViewer = pdfContent.closest('.pdf-viewer');
+                const pdfId = pdfViewer.id;
+                
+                // Parse questions from the content
+                const content = pdfContent.textContent;
+                const questionLines = content.split('\n').filter(line => line.trim() && /^\d+\)/.test(line.trim()));
+                
+                questionLines.forEach(line => {
+                    // Extract question number and text
+                    const match = line.match(/^\d+\)\s*(.+)/);
+                    if (match) {
+                        const questionText = match[1].trim();
+                        allQuestions.push({
+                            text: questionText,
+                            subject: subject,
+                            section: section,
+                            year: year,
+                            pdfId: pdfId,
+                            preview: questionText.length > 100 ? questionText.substring(0, 100) + '...' : questionText
+                        });
+                    }
+                });
+            });
+            
+            console.log(`Loaded ${allQuestions.length} questions for search`);
+        }
+        
+        // Smart Search Feature
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeQuestionData();
+            
+            const searchInput = document.getElementById('questionSearch');
+            const searchResults = document.getElementById('searchResults');
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.trim().toLowerCase();
+                
+                if (searchTerm.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                // Filter questions
+                const filteredQuestions = allQuestions.filter(q => 
+                    q.text.toLowerCase().includes(searchTerm) || 
+                    q.subject.toLowerCase().includes(searchTerm) ||
+                    q.section.toLowerCase().includes(searchTerm) ||
+                    q.year.includes(searchTerm)
+                );
+                
+                // Display results
+                if (filteredQuestions.length > 0) {
+                    searchResults.innerHTML = filteredQuestions.map(q => `
+                        <div class="search-result-item" data-pdf-id="${q.pdfId}" data-question-text="${q.text}">
+                            <div class="search-question">${q.preview}</div>
+                            <div class="search-meta">
+                                <span class="search-subject">${q.subject}</span>
+                                <span class="search-section">વિભાગ ${q.section}</span>
+                                <span class="search-year">${q.year}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.innerHTML = '<div class="no-results">કોઈ પ્રશ્નો મળ્યા નથી</div>';
+                    searchResults.style.display = 'block';
+                }
+                
+                // Add click handlers to search results
+                document.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const pdfId = this.getAttribute('data-pdf-id');
+                        const questionText = this.getAttribute('data-question-text');
+                        
+                        // Hide all subject sections
+                        document.querySelectorAll('.subject-section').forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        
+                        // Hide all pdf viewers first
+                        document.querySelectorAll('.pdf-viewer').forEach(viewer => {
+                            viewer.style.display = 'none';
+                        });
+                        
+                        // Show the clicked pdf viewer
+                        const targetViewer = document.getElementById(pdfId);
+                        if (targetViewer) {
+                            targetViewer.style.display = 'block';
+                            targetViewer.scrollIntoView({ behavior: 'smooth' });
+                            
+                            // Highlight the specific question
+                            const pdfContent = targetViewer.querySelector('.pdf-content');
+                            const contentText = pdfContent.textContent;
+                            const lines = contentText.split('\n');
+                            
+                            // Find and highlight the specific question
+                            const updatedContent = lines.map(line => {
+                                if (line.includes(questionText.substring(0, 50))) {
+                                    return `<span class="question-highlight">${line}</span>`;
+                                }
+                                return line;
+                            }).join('\n');
+                            
+                            // Store original content if not already stored
+                            if (!pdfContent.getAttribute('data-original')) {
+                                pdfContent.setAttribute('data-original', contentText);
+                            }
+                            
+                            pdfContent.innerHTML = updatedContent;
+                            
+                            // Remove highlight after 3 seconds
+                            setTimeout(() => {
+                                const originalContent = pdfContent.getAttribute('data-original');
+                                if (originalContent) {
+                                    pdfContent.textContent = originalContent;
+                                }
+                            }, 3000);
+                        }
+                        
+                        // Clear search and hide results
+                        searchInput.value = '';
+                        searchResults.style.display = 'none';
+                    });
+                });
+            });
+            
+            // Hide search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    searchResults.style.display = 'none';
+                }
+            });
+            
+            // Collapse/Expand functionality for subjects
+            document.querySelectorAll('.toggle-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const content = document.getElementById(targetId + '_content');
+                    const isCollapsed = content.classList.contains('collapsed');
+                    
+                    if (isCollapsed) {
+                        // Expand
+                        content.classList.remove('collapsed');
+                        this.textContent = 'Hide Content';
+                    } else {
+                        // Collapse
+                        content.classList.add('collapsed');
+                        this.textContent = 'Show Content';
+                    }
+                });
+            });
+            
+            // Fix for question viewing
+            // Handle all section card clicks
+            document.querySelectorAll('.section-card a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    
+                    // Hide all subject sections
+                    document.querySelectorAll('.subject-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Hide all pdf viewers first
+                    document.querySelectorAll('.pdf-viewer').forEach(viewer => {
+                        viewer.style.display = 'none';
+                    });
+                    
+                    // Show the clicked pdf viewer
+                    const targetViewer = document.getElementById(targetId);
+                    if (targetViewer) {
+                        targetViewer.style.display = 'block';
+                        targetViewer.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Handle all back button clicks
+            document.querySelectorAll('.back-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    
+                    // Hide all pdf viewers
+                    document.querySelectorAll('.pdf-viewer').forEach(viewer => {
+                        viewer.style.display = 'none';
+                    });
+                    
+                    // Show all subject sections
+                    document.querySelectorAll('.subject-section').forEach(section => {
+                        section.style.display = 'block';
+                    });
+                    
+                    // Scroll to the target section
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Handle nav link clicks
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        
+                        // Hide all pdf viewers
+                        document.querySelectorAll('.pdf-viewer').forEach(viewer => {
+                            viewer.style.display = 'none';
+                        });
+                        
+                        // Show all subject sections
+                        document.querySelectorAll('.subject-section').forEach(section => {
+                            section.style.display = 'block';
+                        });
+                        
+                        // Scroll to target
+                        const target = document.getElementById(targetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
